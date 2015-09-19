@@ -24,7 +24,9 @@ myAbs i = if (i < 0) then -i else i
 f :: (a, b) -> (c, d) -> ((b, d), (a, c))
 f ab cd = (((snd ab), (snd cd)), ((fst ab), (fst cd)))
 
+x :: Int -> Int -> Int
 x = (+)
 
+f1 :: Foldable t => t a -> Int
 f1 xs = w `x` 1
   where w = length xs
