@@ -18,7 +18,7 @@ three = incOne . incOne . incOne $ 0
 
 incTimes :: (Eq a, Num a) => a -> a -> a
 incTimes 0 n = n
-incTimes times n = 1 + (incTimes (times - 1) n)
+incTimes times n = 1 + incTimes (times - 1) n
 
 applyTimes :: Integer -> (b -> b) -> b -> b
 applyTimes 0 _ b = b
@@ -29,8 +29,22 @@ fibonacci 0 = 0
 fibonacci 1 = 1
 fibonacci n = fibonacci (n-1) + fibonacci (n-2)
 
-dividedBy :: Integral a => a -> a -> (a,a)
-dividedBy = undefined
+data DividedResult
+  = Result (Integer, Integer)
+  | DividedByZero
+  deriving Show
+
+dividedBy :: Integer -> Integer -> DividedResult
+dividedBy _ 0 = DividedByZero
+dividedBy num denom = Result $ go num denom 0
+  where go n d count
+          -- | d < 0 = negate(go n (negate d) count)
+          | n < d = (count, n)
+          | otherwise = go (n - d) d (count + 1)
+
+mysum :: Integer -> Integer
+mysum 0 = 0
+mysum n = n + mysum (n - 1)
 
 main :: IO ()
 main = putStrLn "Ch8"
